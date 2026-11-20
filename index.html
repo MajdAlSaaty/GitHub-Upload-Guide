@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>GitHub Project Uploader | دليل رفع المشاريع</title>
+<style>
+:root{
+ --bg:#090e1b;--panel:#111a2c;--panel2:#0d1525;--line:#26344d;
+ --text:#e8eefb;--muted:#9aabc5;--accent:#7c9cff;--accent2:#50d6b2;
+ --danger:#ff7d8a;--warning:#f4c66a;--code:#080d17;--shadow:0 18px 45px #0005;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 0%,#1a2b4b 0,transparent 32%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;line-height:1.8}
+.container{width:min(1120px,92%);margin:auto;padding:34px 0 70px}
+header{text-align:center;margin-bottom:28px}
+.logo{width:58px;height:58px;margin:0 auto 12px;border-radius:18px;background:linear-gradient(135deg,#7195ff,#4ad8b5);display:grid;place-items:center;color:#081222;font-size:27px;font-weight:bold;box-shadow:0 10px 30px #4f80ff44}
+h1{font-size:clamp(25px,4vw,38px);margin:0 0 5px}
+.subtitle{color:var(--muted);margin:0}
+.panel{background:linear-gradient(145deg,#121d31,#0e1728);border:1px solid var(--line);border-radius:19px;padding:23px;margin:18px 0;box-shadow:var(--shadow)}
+.panel h2{font-size:21px;margin:0 0 12px;display:flex;align-items:center;gap:9px}
+.panel h3{font-size:16px;margin:18px 0 8px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.field label{display:block;color:#cbd7ec;font-size:14px;margin-bottom:6px}
+input{width:100%;background:#080f1d;color:var(--text);border:1px solid #30415e;border-radius:11px;padding:13px 14px;font-size:15px;outline:none;direction:ltr;text-align:left}
+input:focus{border-color:var(--accent);box-shadow:0 0 0 3px #7c9cff22}
+.hint,.muted{color:var(--muted);font-size:13px}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button,.linkbtn{border:0;border-radius:10px;padding:10px 15px;font-size:14px;font-weight:bold;cursor:pointer;transition:.2s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px}
+button:hover,.linkbtn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.primary{background:linear-gradient(135deg,#829eff,#6384f4);color:#071020}
+.secondary{background:#1b2a43;color:#dce7fa;border:1px solid #344865}
+.green{background:#143d37;color:#8df0d1;border:1px solid #28685b}
+.copyall{background:#1c3d36;color:#a4f3d8;border:1px solid #286b5c}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.codebox{position:relative;background:var(--code);border:1px solid #26344d;border-radius:12px;overflow:hidden;margin:9px 0 14px;direction:ltr}
+.codebox pre{margin:0;padding:17px 16px;overflow-x:auto;white-space:pre; color:#b9d5ff;font:13px/1.9 Consolas,Monaco,monospace;text-align:left}
+.codebox .copy{position:absolute;top:8px;right:8px;background:#23334d;color:#e8f0ff;padding:6px 10px;font-size:12px;z-index:1}
+.step{display:flex;gap:12px;margin:13px 0;align-items:flex-start}
+.num{flex:0 0 30px;height:30px;border-radius:10px;background:#243b63;color:#b9ceff;display:grid;place-items:center;font-weight:bold}
+.step p{margin:0}
+.note{border-right:3px solid var(--warning);background:#342b1b55;padding:12px 15px;border-radius:9px;color:#f3d99e;margin:12px 0}
+.good{border-right-color:var(--accent2);background:#14352f55;color:#a6ebd7}
+.danger{border-right-color:var(--danger);background:#3b202855;color:#ffc0c7}
+a{color:#9eb7ff}
+.linkrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.linkbtn{background:#1a2c49;color:#c8d9ff;border:1px solid #344c70}
+.pill{display:inline-block;border:1px solid #344865;border-radius:999px;padding:2px 10px;color:#a9bedf;font-size:12px}
+details{border:1px solid var(--line);border-radius:12px;padding:12px 15px;margin:11px 0;background:#0c1423}
+summary{cursor:pointer;font-weight:bold;color:#dbe6f8}
+ul{padding-right:22px;color:#c2cfe2}
+footer{text-align:center;color:#7587a4;font-size:12px;margin-top:30px}
+@media(max-width:700px){.fields{grid-template-columns:1fr}.panel{padding:17px}.container{width:94%;padding-top:22px}.codebox pre{font-size:12px}}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+ <div class="logo">GH</div>
+ <h1>دليل رفع مشاريعك إلى GitHub</h1>
+ <p class="subtitle">أدخل اسم المستودع واسم حسابك، وسنجهّز لك الأوامر والروابط لتنسخها مباشرة.</p>
+</header>
+
+<section class="panel">
+ <h2>⚙️ بيانات المشروع</h2>
+ <div class="fields">
+  <div class="field">
+   <label for="repo">اسم المشروع على GitHub (Repository name)</label>
+   <input id="repo" value="my-project" placeholder="مثال: my-awesome-project" autocomplete="off">
+   <div class="hint">اكتب الاسم كما يظهر تماماً في GitHub، من دون رابط المستودع.</div>
+  </div>
+  <div class="field">
+   <label for="username">اسم مستخدم GitHub (Username)</label>
+   <input id="username" placeholder="YOUR-USERNAME" autocomplete="off">
+   <div class="hint">تجده في رابط ملفك الشخصي: github.com/username</div>
+  </div>
+  <div class="field">
+   <label for="folder">مسار مجلد المشروع على جهازك (اختياري)</label>
+   <input id="folder" placeholder="C:\Users\YourName\Desktop\my-project">
+   <div class="hint">اتركه فارغاً إذا كنت ستنفّذ الأوامر من داخل مجلد المشروع بالفعل.</div>
+  </div>
+  <div class="field">
+   <label for="branch">الفرع الأساسي</label>
+   <input id="branch" value="main" placeholder="main">
+   <div class="hint">ننصح باستخدام main كما هو شائع في GitHub.</div>
+  </div>
+ </div>
+ <div class="actions">
+  <button class="primary" id="generate">توليد التعليمات</button>
+  <button class="secondary" id="reset">إعادة ضبط</button>
+ </div>
+</section>
+
+<div id="results">
+<section class="panel">
+ <div class="section-head"><h2>🚀 أول رفع للمشروع</h2><span class="pill">مرة واحدة لكل مستودع محلي</span></div>
+ <p class="muted">هذه الأوامر مناسبة عندما يكون لديك مجلد مشروع محلي ومستودع GitHub جديد وفارغ. افتح CMD أو Terminal داخل مجلد المشروع ثم نفّذها بالترتيب.</p>
+ <div class="codebox"><button class="copy" data-copy="first">نسخ الأوامر</button><pre id="first"></pre></div>
+ <div class="linkrow"><a class="linkbtn" id="repoLink" target="_blank" rel="noopener">فتح المستودع على GitHub ↗</a><a class="linkbtn" href="https://github.com/new" target="_blank" rel="noopener">إنشاء مستودع جديد ↗</a></div>
+ <div class="note">عند إنشاء المستودع على GitHub، إذا كنت ستستخدم هذه الأوامر لأول مرة، اترك خيارات Add a README وAdd .gitignore وChoose a license غير محددة، حتى يكون المستودع فارغاً وتتجنب تعارض أول رفع.</div>
+</section>
+
+<section class="panel">
+ <h2>🔁 رفع التعديلات مستقبلاً</h2>
+ <p>بعد أن يكون المشروع مربوطاً بالمستودع، لا تحتاج إلى تكرار git init أو git remote add. استخدم هذه الأوامر كلما عدّلت الملفات وأردت نشر التعديلات:</p>
+ <div class="codebox"><button class="copy" data-copy="updates">نسخ الأوامر</button><pre id="updates"></pre></div>
+ <p class="muted">غيّر رسالة Commit لتصف التعديل الحقيقي، مثل: Add search feature أو Fix login bug أو Update README.</p>
+</section>
+
+<section class="panel">
+ <h2>🧭 إذا كان المستودع على GitHub يحتوي ملفات مسبقاً</h2>
+ <p>إذا أنشأت المستودع مع README أو أي ملف آخر ورفض Git عملية Push برسالة <code>fetch first</code>، اسحب التغييرات أولاً ثم ارفع مشروعك:</p>
+ <div class="codebox"><button class="copy" data-copy="pull">نسخ الأوامر</button><pre id="pull"></pre></div>
+ <div class="note danger">لا تستخدم git push --force كحل سريع؛ فقد يؤدي إلى استبدال تاريخ أو تغييرات موجودة على GitHub. إذا ظهر Merge Conflict، افحص git status وعالج الملفات المتعارضة قبل إكمال الدمج.</div>
+</section>
+
+<section class="panel">
+ <h2>📘 إنشاء ملف README.md</h2>
+ <p>أنشئ ملفاً باسم <code>README.md</code> داخل مجلد المشروع. هذا قالب أولي يمكنك تعديله ليشرح مشروعك للزوار:</p>
+ <div class="codebox"><button class="copy" data-copy="readme">نسخ قالب README</button><pre id="readme"></pre></div>
+</section>
+
+<section class="panel">
+ <h2>🧹 ملف .gitignore المقترح</h2>
+ <p>أنشئ ملفاً باسم <code>.gitignore</code> في جذر المشروع. يمنع إضافة ملفات مؤقتة وشائعة إلى Git:</p>
+ <div class="codebox"><button class="copy" data-copy="ignore">نسخ .gitignore</button><pre id="ignore"></pre></div>
+ <div class="note danger">لا ترفع كلمات المرور أو مفاتيح الخدمات السرية أو ملفات إعدادات خاصة. إذا سبق أن أضفت سراً إلى Commit، فإن حذفه من الملف وحده لا يزيله من تاريخ Git؛ غيّر السر المتسرب واتبع خطوات تنظيف التاريخ عند الحاجة.</div>
+</section>
+
+<section class="panel">
+ <h2>🌐 نشر الموقع باستخدام GitHub Pages</h2>
+ <div class="step"><span class="num">1</span><p>افتح المستودع ثم ادخل إلى <b>Settings → Pages</b>.</p></div>
+ <div class="step"><span class="num">2</span><p>من قسم Build and deployment اختر <b>Deploy from a branch</b>.</p></div>
+ <div class="step"><span class="num">3</span><p>اختر الفرع <b id="pagesBranch">main</b> والمجلد <b>/(root)</b> ثم اضغط Save.</p></div>
+ <div class="step"><span class="num">4</span><p>بعد انتهاء النشر سيكون رابط الموقع عادةً:</p></div>
+ <div class="codebox"><button class="copy" data-copy="pages">نسخ رابط Pages</button><pre id="pages"></pre></div>
+ <a class="linkbtn" id="pagesLink" target="_blank" rel="noopener">فتح إعدادات Pages ↗</a>
+ <p class="muted">قد يستغرق ظهور الموقع بضع دقائق. يجب أن يكون ملف الصفحة الرئيسية باسم index.html في جذر المستودع أو في مجلد النشر المختار.</p>
+</section>
+
+<section class="panel">
+ <h2>🛠️ أوامر Git المفيدة عند الحاجة</h2>
+ <details open><summary>معرفة حالة الملفات والتغييرات</summary><div class="codebox"><button class="copy" data-copy="status">نسخ</button><pre id="status">git status</pre></div></details>
+ <details><summary>عرض سجل الـ Commits</summary><div class="codebox"><button class="copy" data-copy="log">نسخ</button><pre id="log">git log --oneline --graph --decorate</pre></div></details>
+ <details><summary>معرفة المستودع البعيد المرتبط</summary><div class="codebox"><button class="copy" data-copy="remote">نسخ</button><pre id="remote"></pre></div></details>
+ <details><summary>تغيير رابط المستودع البعيد إذا كان خاطئاً</summary><div class="codebox"><button class="copy" data-copy="setremote">نسخ</button><pre id="setremote"></pre></div></details>
+ <details><summary>إلغاء إضافة ملف إلى Staging قبل Commit</summary><div class="codebox"><button class="copy" data-copy="unstage">نسخ</button><pre id="unstage">git restore --staged FILE_NAME</pre></div></details>
+</section>
+
+<section class="panel">
+ <h2>💬 أمثلة لرسائل Commit جيدة</h2>
+ <p class="muted">اكتب رسالة قصيرة وواضحة تصف ما تغيّر. اختر المثال المناسب وانسخه:</p>
+ <div class="actions" id="commitExamples">
+  <button class="secondary" data-message="Initial commit: Add project files">Initial commit</button>
+  <button class="secondary" data-message="Add user authentication">إضافة ميزة</button>
+  <button class="secondary" data-message="Fix navigation bug">إصلاح خطأ</button>
+  <button class="secondary" data-message="Improve responsive layout">تحسين التصميم</button>
+  <button class="secondary" data-message="Update project documentation">تحديث التوثيق</button>
+ </div>
+ <div class="codebox"><button class="copy" data-copy="commit">نسخ</button><pre id="commit"></pre></div>
+</section>
+
+<section class="panel">
+ <h2>✅ قائمة تحقق قبل الرفع</h2>
+ <ul>
+  <li>تأكد أنك داخل مجلد المشروع الصحيح.</li>
+  <li>اختبر المشروع محلياً قبل رفعه.</li>
+  <li>لا ترفع كلمات مرور أو ملفات تحتوي بيانات سرية.</li>
+  <li>تأكد من اسم المستودع ورابط GitHub.</li>
+  <li>اكتب README يشرح فكرة المشروع وطريقة تشغيله.</li>
+  <li>استخدم .gitignore المناسب للغة والأدوات المستخدمة.</li>
+  <li>بعد الرفع، افتح المستودع وتأكد من ظهور الملفات.</li>
+ </ul>
+ <div class="note good">تذكّر: أول رفع يختلف عن رفع التعديلات. أوامر التهيئة والربط تُنفّذ مرة واحدة فقط، أما add وcommit وpush فتكررها عند كل تحديث.</div>
+</section>
+</div>
+<footer>GitHub Upload Assistant · صفحة مستقلة تعمل محلياً دون مكتبات خارجية</footer>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+let generated = {};
+function cleanRepo(v){return v.trim().replace(/^\/+|\/+$/g,'');}
+function safeName(v){return v.replace(/[^a-zA-Z0-9._-]/g,'-').replace(/^-+|-+$/g,'') || 'my-project';}
+function generate(){
+ const repo=cleanRepo($('repo').value)||'my-project';
+ const user=$('username').value.trim()||'YOUR-USERNAME';
+ const branch=$('branch').value.trim()||'main';
+ const folder=$('folder').value.trim();
+ const url=`https://github.com/${user}/${repo}.git`;
+ const web=`https://github.com/${user}/${repo}`;
+ const folderLine=folder?`cd /d "${folder}"\n`:'';
+ generated.first=`${folderLine}git init\ngit add .\ngit commit -m "Initial commit: ${repo}"\ngit branch -M ${branch}\ngit remote add origin ${url}\ngit push -u origin ${branch}`;
+ generated.updates=`git add .\ngit commit -m "Describe your changes"\ngit push`;
+ generated.pull=`git pull origin ${branch} --allow-unrelated-histories\ngit push -u origin ${branch}`;
+ generated.readme=`# ${repo}\n\nA brief description of this project.\n\n## Features\n- Feature one\n- Feature two\n- Feature three\n\n## Technologies\n- Add the technologies used in this project.\n\n## Getting Started\n1. Clone the repository:\n   \\\`\\\`\\\`bash\n   git clone ${web}.git\n   \\\`\\\`\\\`\n2. Open the project folder.\n3. Follow the project-specific setup instructions.\n\n## Usage\nExplain how to run and use the project here.\n\n## Screenshots\nAdd screenshots here if available.\n\n## Author\n${user}\n\n## License\nChoose and add a license if you intend to publish one.`;
+ generated.ignore=`# Operating system\n.DS_Store\nThumbs.db\ndesktop.ini\n\n# IDE and editor\n.vscode/\n.idea/\n\n# Logs and temporary files\n*.log\n*.tmp\n*.bak\n\n# Environment files\n.env\n.env.*\n!.env.example\n\n# Dependencies (when applicable)\nnode_modules/\n`;
+ generated.pages=`https://${user}.github.io/${repo}/`;
+ generated.status='git status';
+ generated.log='git log --oneline --graph --decorate';
+ generated.remote='git remote -v';
+ generated.setremote=`git remote set-url origin ${url}`;
+ generated.unstage='git restore --staged FILE_NAME';
+ generated.commit='git commit -m "Describe your changes"';
+ Object.keys(generated).forEach(k=>{if($(k))$(k).textContent=generated[k]});
+ $('repoLink').href=web;
+ $('pagesLink').href=web+'/settings/pages';
+ $('pagesBranch').textContent=branch;
+ $('pagesLink').textContent='فتح إعدادات Pages ↗';
+}
+function copyText(key,button){
+ const value=generated[key] || ($(key)?.textContent ?? '');
+ if(!value)return;
+ const done=()=>{const old=button.textContent;button.textContent='تم النسخ ✓';setTimeout(()=>button.textContent=old,1300)};
+ if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(value).then(done).catch(()=>fallback(value,done));}
+ else fallback(value,done);
+}
+function fallback(value,done){
+ const ta=document.createElement('textarea');ta.value=value;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+ try{document.execCommand('copy');done()}catch(e){alert('تعذر النسخ تلقائياً. حدّد النص وانسخه يدوياً.')}
+ ta.remove();
+}
+$('generate').addEventListener('click',generate);
+$('reset').addEventListener('click',()=>{$('repo').value='my-project';$('username').value='';$('folder').value='';$('branch').value='main';generate()});
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',()=>copyText(b.dataset.copy,b)));
+$('commitExamples').addEventListener('click',e=>{
+ const b=e.target.closest('button[data-message]');if(!b)return;
+ generated.commit=`git commit -m "${b.dataset.message}"`;$('commit').textContent=generated.commit;
+ copyText('commit',b);
+});
+['repo','username','folder','branch'].forEach(id=>$(id).addEventListener('keydown',e=>{if(e.key==='Enter')generate()}));
+generate();
+</script>
+</body>
+</html>
